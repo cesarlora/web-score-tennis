@@ -1,0 +1,19 @@
+h1 {
+  @apply text-heading-h2-lg md:text-heading-h1-md lg:text-heading-h1-lg;
+}
+
+h2 {
+  @apply text-heading-h2-md lg:text-heading-h2-lg;
+}
+
+h3 {
+  @apply text-heading-h3-md lg:text-heading-h2-md;
+}
+
+h4 {
+  @apply text-heading-h4-md lg:text-heading-h3-md;
+}
+
+h5 {
+  @apply text-heading-h5-lg;
+}

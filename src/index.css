@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('./assets/fonts/icons.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif, "Libre Baskerville", serif, "DM Sans", sans-serif;
+}
+
+
+.content-score {
+  @apply w-full py-16;
+
+  h1 {
+    @apply text-secondary-700 font-display font-semibold text-center;
+  }
+
+  .body-table {
+    @apply max-w-[800px] mx-auto;
+
+    table {
+      @apply w-full border-collapse border border-neutral-700;
+
+      thead {
+        tr {
+          th {
+            @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center py-2;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center py-2;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.modal-add-match {
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px];
+
+
+  .body-modal {
+    @apply block space-y-6 max-w-[600px] mx-auto bg-semantic-white rounded-xl py-6;
+
+    h4 {
+      @apply text-center text-tertiary-blue font-display font-medium border-b border-neutral-700 pb-6 px-4;
+    }
+
+    form {
+      @apply w-full block space-y-6 px-4;
+
+      .form-group {
+        @apply block space-y-2;
+
+        label {
+          @apply block text-lead text-neutral-700 font-display font-medium;
+        }
+
+        input, select {
+          @apply w-full h-12 border border-neutral-500 px-3 rounded-lg placeholder:text-neutral-700 text-semantic-success outline-none;
+        }
+      }
+
+      button {
+        @apply inline-flex items-center justify-center w-full h-12 px-4 bg-tertiary-blue text-semantic-white rounded-lg;
+      }
+    }
+  }
+}
+
+
+ 

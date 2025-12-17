@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'CustomIcons';
+  src: url('./CustomIcons.woff2') format('woff2'),
+       url('./CustomIcons.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.icon {
+  font-family: 'CustomIcons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-right:before {
+  content: "\ea01";
+}
+
+.icon-check:before {
+  content: "\ea02";
+}
+
+.icon-home:before {
+  content: "\ea03";
+}
+
+.icon-instagram:before {
+  content: "\ea04";
+}
+
+.icon-user:before {
+  content: "\ea05";
+}

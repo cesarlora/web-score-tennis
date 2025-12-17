@@ -1,0 +1,29 @@
+header {
+  @apply w-full border-b border-neutral-700;
+
+  > .container-fluid {
+    @apply flex items-center justify-between px-8 py-4 gap-6;
+  }
+
+  .logo {
+    @apply block;
+
+    img {
+      @apply h-14 object-contain;
+    }
+  }
+
+  .main-nav {
+    @apply flex items-center;
+
+    .main-menu {
+      @apply flex items-center gap-4;
+
+      li {
+        button {
+          @apply text-lead text-tertiary-green font-display font-medium;
+        }
+      }
+    }
+  }
+}
