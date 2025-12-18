@@ -86,6 +86,7 @@ function AddMatch({ closeModal, onAddMatch }) {
 
     const newMatch = {
       ...match,
+      date: formatDate(match.date),
       winner: getWinner(match.player1, match.player2, match.result)
     }
 
