@@ -31,6 +31,21 @@ function App() {
     setMatches(prev => [...prev, newMatch])
   }
 
+   const renderPlayers = (match) => {
+    if (match.matchType === 'Individual' || match.matchType === 'Tie-Break') {
+      return `${match.player1?.name || match.player1} vs ${match.player2?.name || match.player2}`
+    }
+
+    if (match.matchType === 'Dobles') {
+      const team1 = match.team1?.map(p => p.name).join(' & ')
+      const team2 = match.team2?.map(p => p.name).join(' & ')
+      return `${team1} vs ${team2}`
+    }
+
+    return '-'
+  }
+  
+
   return (
     <>
       <Header openModal={() => setModalAdd(true)} />
@@ -59,7 +74,7 @@ function App() {
                   )}
                   {matches.map((match, index) => (
                     <tr key={index}>
-                      <td>{match.player1} Vs {match.player2}</td>
+                      <td>{renderPlayers(match)}</td>
                       <td>{match.matchType}</td>
                       <td>{match.result}</td>
                       <td>{match.winner}</td>

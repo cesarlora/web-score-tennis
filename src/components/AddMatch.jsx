@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { collection, addDoc, getDocs } from 'firebase/firestore'
+import Select from 'react-select'
+import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import AddPlayer from './AddPlayer.jsx'
 
@@ -22,6 +23,10 @@ function AddMatch({ closeModal, onAddMatch }) {
     fetchPlayers()
   }, [])
 
+  const getDisabledOptions = (team) => {
+    return team.map(p => p.value)
+  }
+
   const handleChange = (e) => {
     const { id, value } = e.target
 
@@ -31,10 +36,17 @@ function AddMatch({ closeModal, onAddMatch }) {
     }))
   }
 
+  const playerOptions = players.map(p => ({
+    value: p.id,
+    label: p.namePlayer
+  }))
+
   const initialMatchState = {
-    player1: '',
-    player2: '',
-    matchType: '',
+    Team1: [],
+    Team2: [],
+    player1: null,
+    player2: null,
+    matchType: 'Individual',
     result: '',
     date: ''
   }
@@ -52,24 +64,6 @@ function AddMatch({ closeModal, onAddMatch }) {
   const validate = () => {
     const newErrors = {}
 
-    if (match.player1 === match.player2) {
-      newErrors.player2 = 'No puede ser el mismo jugador'
-    }
-
-    if (!match.player1.trim()) {
-      newErrors.player1 = 'Jugador 1 es obligatorio'
-    }
-
-    if (!match.player2.trim()) {
-      newErrors.player2 = 'Jugador 2 es obligatorio'
-    }
-
-   if (!match.result.trim()) {
-      newErrors.result = 'Debe ingresar el resultado'
-    } else if (!resultRegex.test(match.result.trim())) {
-      newErrors.result = 'Formato inválido. Ej: 6-3 6-4'
-    }
-
     if (!match.matchType) {
       newErrors.matchType = 'Debe seleccionar el tipo de partido'
     }
@@ -78,50 +72,111 @@ function AddMatch({ closeModal, onAddMatch }) {
       newErrors.date = 'Debe seleccionar una fecha'
     }
 
+    if (!match.result?.trim()) {
+      newErrors.result = 'Debe ingresar el resultado'
+    } else if (!resultRegex.test(match.result.trim())) {
+      newErrors.result = 'Formato inválido. Ej: 6-3 6-4'
+    }
+
+    // ▶️ PARTIDO INDIVIDUAL
+    if (match.matchType === 'Individual' || match.matchType === 'Tie-Break') {
+      if (!match.player1) {
+        newErrors.player1 = 'Jugador 1 es obligatorio'
+      }
+
+      if (!match.player2) {
+        newErrors.player2 = 'Jugador 2 es obligatorio'
+      }
+
+      if (
+        match.player1 &&
+        match.player2 &&
+        match.player1.value === match.player2.value
+      ) {
+        newErrors.player2 = 'No puede ser el mismo jugador'
+      }
+    }
+
+    // ▶️ PARTIDO DOBLES
+    if (match.matchType === 'Dobles') {
+      if (match.Team1.length !== 2) {
+        newErrors.Team1 = 'Equipo 1 debe tener 2 jugadores'
+      }
+
+      if (match.Team2.length !== 2) {
+        newErrors.Team2 = 'Equipo 2 debe tener 2 jugadores'
+      }
+
+      const team1Ids = match.Team1.map(p => p.value)
+      const team2Ids = match.Team2.map(p => p.value)
+
+      const repeated = team1Ids.some(id => team2Ids.includes(id))
+
+      if (repeated) {
+        newErrors.Team2 = 'Un jugador no puede estar en ambos equipos'
+      }
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const getWinner = (p1, p2, result) => {
-    let p1Sets = 0
-    let p2Sets = 0
+  const getWinner = (a, b, result) => {
+    let aSets = 0
+    let bSets = 0
 
     result.split(' ').forEach(set => {
-      const [a, b] = set.split('-').map(Number)
-      a > b ? p1Sets++ : p2Sets++
+      const [x, y] = set.split('-').map(Number)
+      x > y ? aSets++ : bSets++
     })
 
-    return p1Sets > p2Sets ? p1 : p2
+    return aSets > bSets ? a : b
   }
 
-  const formatDate = (isoDate) => {
-    if (!isoDate) return ''
-    const [year, month, day] = isoDate.split('-')
-    return `${day}-${month}-${year}`
-  }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     if (!validate()) return
 
+    const winner =
+      match.matchType === 'Dobles'
+        ? getWinner('Equipo 1', 'Equipo 2', match.result)
+        : getWinner(
+            match.player1.label,
+            match.player2.label,
+            match.result
+          )
+
     const newMatch = {
-      ...match,
-      date: formatDate(match.date),
-      winner: getWinner(match.player1, match.player2, match.result)
+      matchType: match.matchType,
+      result: match.result,
+      date: match.date,
+      winner,
+      team1: match.Team1.map(p => ({ id: p.value, name: p.label })),
+      team2: match.Team2.map(p => ({ id: p.value, name: p.label })),
+      player1: match.player1
+        ? { id: match.player1.value, name: match.player1.label }
+        : null,
+      player2: match.player2
+        ? { id: match.player2.value, name: match.player2.label }
+        : null,
+      createdAt: Timestamp.now()
     }
 
-    try {
-      const docRef = await addDoc(collection(db, 'matches'), newMatch)
-
-      onAddMatch({ id: docRef.id, ...newMatch })
-
-      resetForm()
-      closeModal()
-    } catch (error) {
-      console.error('Error guardando partido:', error)
-    }
+    const docRef = await addDoc(collection(db, 'matches'), newMatch)
+    onAddMatch({ id: docRef.id, ...newMatch })
+    setMatch(initialMatchState)
+    closeModal()
   }
 
+  useEffect(() => {
+    setMatch(prev => ({
+      ...prev,
+      Team1: [],
+      Team2: [],
+      player1: null,
+      player2: null
+    }))
+  }, [match.matchType])
 
   return (
     <>
@@ -134,48 +189,95 @@ function AddMatch({ closeModal, onAddMatch }) {
             </div>
             <form onSubmit={handleSubmit}>
               <div className="block space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="form-group">
-                    <label htmlFor="player1">Jugador 1</label>
-                    <select
-                      id="player1"
-                      value={match.player1}
-                      onChange={handleChange}
-                    >
-                      <option value="">Seleccione jugador</option>
-                      {players.map(player => (
-                        <option key={player.id} value={player.namePlayer}>
-                          {player.namePlayer}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.player1 && (
-                      <p className="text-semantic-error text-body-2">
-                        {errors.player1}
-                      </p>
-                    )}
+                {match.matchType === 'Dobles' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="form-group">
+                      <label htmlFor="Team1">Equipo 1</label>
+                      <Select
+                        className='form-control'
+                        isMulti
+                        options={playerOptions}
+                        value={match.Team1}
+                        maxMenuHeight={160}
+                        closeMenuOnSelect={false}
+                        onChange={(selected) => {
+                          if (selected.length <= 2) {
+                            setMatch(prev => ({ ...prev, Team1: selected }))
+                          }
+                        }}
+                        isOptionDisabled={(option) =>
+                          getDisabledOptions(match.Team2).includes(option.value)
+                        }
+                        placeholder="Seleccione jugadores"
+                      />
+
+                      {errors.Team1 && <p className="text-semantic-error text-body-2">{errors.Team1}</p>}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="Team2">Equipo 2</label>
+                      <Select
+                        className='form-control'
+                        isMulti
+                        options={playerOptions}
+                        value={match.Team2}
+                        maxMenuHeight={160}
+                        closeMenuOnSelect={false}
+                        onChange={(selected) => {
+                          if (selected.length <= 2) {
+                            setMatch(prev => ({ ...prev, Team2: selected }))
+                          }
+                        }}
+                        isOptionDisabled={(option) =>
+                          getDisabledOptions(match.Team1).includes(option.value)
+                        }
+                        placeholder="Seleccione jugadores"
+                      />
+
+                      {errors.Team2 && <p className="text-semantic-error text-body-2">{errors.Team2}</p>}
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="player2">Jugador 2</label>
-                    <select
-                      id="player2"
-                      value={match.player2}
-                      onChange={handleChange}
-                    >
-                      <option value="">Seleccione jugador</option>
-                      {players.map(player => (
-                        <option key={player.id} value={player.namePlayer}>
-                          {player.namePlayer}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.player2 && (
-                      <p className="text-semantic-error text-body-2">
-                        {errors.player2}
-                      </p>
-                    )}
+                )}
+                {(match.matchType === 'Individual' || match.matchType === 'Tie-Break') && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="form-group">
+                      <label htmlFor="player1">Jugador 1</label>
+                      <Select
+                        className='form-control'
+                        options={playerOptions}
+                        value={match.player1}
+                        onChange={(value) =>
+                          setMatch(prev => ({ ...prev, player1: value }))
+                        }
+                        placeholder="Seleccione jugador"
+                      />
+                      {errors.player1 && (
+                        <p className="text-semantic-error text-body-2">
+                          {errors.player1}
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="player2">Jugador 2</label>
+                      <Select
+                        className='form-control'
+                        options={playerOptions}
+                        value={match.player2}
+                        onChange={(value) =>
+                          setMatch(prev => ({ ...prev, player2: value }))
+                        }
+                        isOptionDisabled={(option) =>
+                          option.value === match.player1?.value
+                        }
+                        placeholder="Seleccione jugador"
+                      />
+                      {errors.player2 && (
+                        <p className="text-semantic-error text-body-2">
+                          {errors.player2}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="form-group">
                     <label htmlFor="matchType">Tipo de Partido</label>

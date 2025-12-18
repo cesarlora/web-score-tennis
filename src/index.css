@@ -17,7 +17,7 @@
   }
 
   .body-table {
-    @apply max-w-[800px] mx-auto overflow-auto;
+    @apply max-w-[1000px] mx-auto overflow-auto;
 
     table {
       @apply w-full border-collapse border border-neutral-700;
@@ -70,6 +70,42 @@
 
         label {
           @apply block text-lead text-neutral-700 font-display font-medium;
+        }
+
+        .form-control {
+          @apply w-full !h-12;
+
+          .css-13cymwt-control {
+            @apply w-full !h-12 min-h-full border border-neutral-500 !rounded-lg outline-none shadow-none;
+
+            .css-1dyz3mf {
+              @apply w-full h-12 flex items-center m-0 px-2 md:px-3 py-0;
+
+              .css-1p3m7a8-multiValue {
+                @apply w-auto m-0 p-0;
+              }
+
+              .css-19bb58m {
+                @apply h-12 p-0 m-0;
+              }
+            }
+ 
+            .css-hlgwow {
+              @apply w-full h-12 px-2 md:px-3 py-0;
+
+              .css-1jqq78o-placeholder {
+                @apply w-full h-12 text-neutral-700 p-0 m-0 flex items-center;
+              }
+
+              .css-19bb58m {
+                @apply !w-full !h-12 p-0 m-0 flex items-center;
+
+                input {
+                  @apply w-full h-12;
+                }
+              }
+            }
+          }
         }
 
         input, select {
