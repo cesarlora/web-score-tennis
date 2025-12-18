@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './components/utilities/text.css'
 import './index.css'
-import Header from './components/header.jsx'
+import Header from './components/Header.jsx'
 import AddMatch from './components/AddMatch.jsx'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from './firebase'
