@@ -11,7 +11,7 @@ h3 {
 }
 
 h4 {
-  @apply text-heading-h4-md lg:text-heading-h3-md;
+  @apply text-heading-h5-lg md:text-heading-h4-md lg:text-heading-h3-md;
 }
 
 h5 {

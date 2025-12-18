@@ -27,14 +27,18 @@
   content: "\ea02";
 }
 
-.icon-home:before {
+.icon-close:before {
   content: "\ea03";
 }
 
-.icon-instagram:before {
+.icon-home:before {
   content: "\ea04";
 }
 
-.icon-user:before {
+.icon-instagram:before {
   content: "\ea05";
+}
+
+.icon-user:before {
+  content: "\ea06";
 }

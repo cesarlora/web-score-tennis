@@ -2,14 +2,14 @@ header {
   @apply w-full border-b border-neutral-700;
 
   > .container-fluid {
-    @apply flex items-center justify-between px-8 py-4 gap-6;
+    @apply flex items-center justify-between px-4 md:px-8 py-4 gap-6;
   }
 
   .logo {
     @apply block;
 
     img {
-      @apply h-14 object-contain;
+      @apply h-12 md:h-14 object-contain;
     }
   }
 
@@ -17,7 +17,7 @@ header {
     @apply flex items-center;
 
     .main-menu {
-      @apply flex items-center gap-4;
+      @apply flex items-center gap-2 md:gap-4;
 
       li {
         button {

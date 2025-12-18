@@ -1,10 +1,26 @@
-import { useState } from 'react'
-import { collection, addDoc } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
+import { collection, addDoc, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
+import AddPlayer from './AddPlayer.jsx'
 
 
 function AddMatch({ closeModal, onAddMatch }) {
   const [errors, setErrors] = useState({})
+  const [players, setPlayers] = useState([])
+  const [modalAddPlayer, setModalAddPlayer] = useState(false)
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const snapshot = await getDocs(collection(db, 'players'))
+      const playersData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setPlayers(playersData)
+    }
+
+    fetchPlayers()
+  }, [])
 
   const handleChange = (e) => {
     const { id, value } = e.target
@@ -35,6 +51,10 @@ function AddMatch({ closeModal, onAddMatch }) {
 
   const validate = () => {
     const newErrors = {}
+
+    if (match.player1 === match.player2) {
+      newErrors.player2 = 'No puede ser el mismo jugador'
+    }
 
     if (!match.player1.trim()) {
       newErrors.player1 = 'Jugador 1 es obligatorio'
@@ -108,19 +128,27 @@ function AddMatch({ closeModal, onAddMatch }) {
       <div className="modal-add-match">
         <div className="container">
           <div className="body-modal">
-            <h4>Agregar Partido</h4>
+            <div className="title">
+              <h4>Agregar Partido</h4>
+              <button type="button" className='btn-add' onClick={() => setModalAddPlayer(true)}>Agregar Jugador</button>
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="block space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="form-group">
                     <label htmlFor="player1">Jugador 1</label>
-                    <input 
-                      type="text" 
+                    <select
                       id="player1"
                       value={match.player1}
                       onChange={handleChange}
-                      placeholder="Jugador 1"
-                    />
+                    >
+                      <option value="">Seleccione jugador</option>
+                      {players.map(player => (
+                        <option key={player.id} value={player.namePlayer}>
+                          {player.namePlayer}
+                        </option>
+                      ))}
+                    </select>
                     {errors.player1 && (
                       <p className="text-semantic-error text-body-2">
                         {errors.player1}
@@ -129,13 +157,18 @@ function AddMatch({ closeModal, onAddMatch }) {
                   </div>
                   <div className="form-group">
                     <label htmlFor="player2">Jugador 2</label>
-                    <input 
-                      type="text" 
+                    <select
                       id="player2"
                       value={match.player2}
                       onChange={handleChange}
-                      placeholder="Jugador 2"
-                    />
+                    >
+                      <option value="">Seleccione jugador</option>
+                      {players.map(player => (
+                        <option key={player.id} value={player.namePlayer}>
+                          {player.namePlayer}
+                        </option>
+                      ))}
+                    </select>
                     {errors.player2 && (
                       <p className="text-semantic-error text-body-2">
                         {errors.player2}
@@ -143,7 +176,7 @@ function AddMatch({ closeModal, onAddMatch }) {
                     )}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="form-group">
                     <label htmlFor="matchType">Tipo de Partido</label>
                     <select name="matchType" id="matchType"  value={match.matchType} onChange={handleChange}>
@@ -198,6 +231,15 @@ function AddMatch({ closeModal, onAddMatch }) {
           </div>
         </div>
       </div>
+      {modalAddPlayer && (
+        <AddPlayer
+          closeModalPlayer={() => setModalAddPlayer(false)}
+          onAddPlayer={(player) => {
+            console.log('Jugador agregado:', player)
+            setModalAddPlayer(false)
+          }}
+        />
+      )}
     </>
   )
 }

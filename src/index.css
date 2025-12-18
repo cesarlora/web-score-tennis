@@ -17,7 +17,7 @@
   }
 
   .body-table {
-    @apply max-w-[800px] mx-auto;
+    @apply max-w-[800px] mx-auto overflow-auto;
 
     table {
       @apply w-full border-collapse border border-neutral-700;
@@ -25,7 +25,7 @@
       thead {
         tr {
           th {
-            @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center py-2;
+            @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center px-4 py-2 whitespace-nowrap;
           }
         }
       }
@@ -33,7 +33,7 @@
       tbody {
         tr {
           td {
-            @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center py-2;
+            @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center px-4 py-2 whitespace-nowrap;
           }
         }
       }
@@ -49,9 +49,18 @@
   .body-modal {
     @apply block space-y-6 max-w-[600px] mx-auto bg-semantic-white rounded-xl py-6;
 
-    h4 {
-      @apply text-center text-tertiary-blue font-display font-medium border-b border-neutral-700 pb-6 px-4;
+    .title {
+      @apply flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-neutral-700 pb-6 px-2 md:px-4;
+
+      h4 {
+        @apply text-center md:text-left text-tertiary-blue font-display font-medium;
+      }
+
+      .btn-add {
+        @apply inline-flex items-center justify-center h-10 px-4 bg-tertiary-green text-semantic-white rounded-lg;
+      }
     }
+
 
     form {
       @apply w-full block space-y-6 px-4;
@@ -64,7 +73,51 @@
         }
 
         input, select {
-          @apply w-full h-12 border border-neutral-500 px-3 rounded-lg placeholder:text-neutral-700 text-semantic-success outline-none;
+          @apply w-full h-12 border border-neutral-500 px-2 md:px-3 rounded-lg placeholder:text-neutral-700 text-primary-700 outline-none;
+        }
+      }
+
+      button {
+        @apply inline-flex items-center justify-center w-full h-12 px-4 bg-tertiary-blue text-semantic-white rounded-lg;
+      }
+    }
+  }
+}
+
+.modal-add-player {
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-12 flex items-center justify-center;
+
+  .body-modal {
+    @apply block space-y-6 w-full max-w-[500px] mx-auto bg-semantic-white rounded-xl py-6;
+
+    .title {
+      @apply flex items-center justify-between gap-4 border-b border-tertiary-blue pb-6 px-3;
+
+      h5 {
+        @apply text-center text-tertiary-blue font-display font-medium;
+      }
+
+      .btn-close {
+        @apply inline-flex items-center justify-center h-9 max-w-[36px] min-w-[36px] px-4 bg-tertiary-green text-semantic-white rounded-lg;
+
+        i {
+          @apply text-[18px];
+        }
+      }
+    }
+
+    form {
+      @apply w-full block space-y-8 px-3;
+
+      .form-group {
+        @apply block space-y-2;
+
+        label {
+          @apply block text-lead text-neutral-700 font-display font-medium;
+        }
+
+        input, select {
+          @apply w-full h-12 border border-neutral-500 px-2 md:px-3 rounded-lg placeholder:text-neutral-700 text-primary-700 outline-none;
         }
       }
 
