@@ -115,7 +115,7 @@ function Players() {
                   {detailPlayer === player.id && stats[player.id] && (  
                     <div className="detail">
                       <h6>Informacion general</h6>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-2">
                          <div className="info">
                           <p>Jugados</p>
                           <p>{stats[player.id].played}</p>
