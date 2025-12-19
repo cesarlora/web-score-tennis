@@ -27,16 +27,53 @@ function Home() {
   
       fetchMatches()
   }, [])
+
+  const getTeamInitials = (team = []) => {
+    return team
+      .map(player => player.name.charAt(0).toUpperCase())
+      .join(' & ')
+  }
+  const renderWinner = (match) => {
+    // Individual o Tie-Break → nombre normal
+    if (match.matchType === 'Individual' || match.matchType === 'Tie-Break') {
+      return match.winner
+    }
+
+    // Dobles
+    if (match.matchType === 'Dobles') {
+      if (match.winner === 'Equipo 1') {
+        return (
+          <>
+            <strong>Equipo 1</strong>
+            <br />
+            <p>{getTeamInitials(match.team1)}</p>
+          </>
+        )
+      }
+
+      if (match.winner === 'Equipo 2') {
+        return (
+          <>
+            <strong>Equipo 2</strong>
+            <br />
+            <small>{getTeamInitials(match.team2)}</small>
+          </>
+        )
+      }
+    }
+
+    return '—'
+  }
   
 
   const renderPlayers = (match) => {
     if (match.matchType === 'Individual' || match.matchType === 'Tie-Break') {
-      return `${match.player1?.name || match.player1} vs ${match.player2?.name || match.player2}`
+      return `${match.player1} vs ${match.player2}`
     }
 
     if (match.matchType === 'Dobles') {
-      const team1 = match.team1?.map(p => p.name).join(' & ')
-      const team2 = match.team2?.map(p => p.name).join(' & ')
+      const team1 = match.team1.map(p => p.name).join(' & ')
+      const team2 = match.team2.map(p => p.name).join(' & ')
       return `${team1} vs ${team2}`
     }
 
@@ -77,7 +114,7 @@ function Home() {
                       <td>{renderPlayers(match)}</td>
                       <td>{match.matchType}</td>
                       <td>{match.result}</td>
-                      <td>{match.winner}</td>
+                      <td>{renderWinner(match)}</td>
                       <td>{match.date}</td>
                   </tr>
                   ))}
