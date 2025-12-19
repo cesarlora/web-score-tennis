@@ -20,7 +20,7 @@ header {
       @apply flex items-center gap-2 md:gap-4;
 
       li {
-        button {
+        button,a {
           @apply text-lead text-tertiary-green font-display font-medium;
         }
       }

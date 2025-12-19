@@ -9,31 +9,97 @@
 }
 
 
-.content-score {
-  @apply w-full py-16;
+.content-players {
+  @apply w-full py-20;
 
-  h1 {
-    @apply text-secondary-700 font-display font-semibold text-center;
+  h2 {
+    @apply text-secondary-700 font-display font-medium;
   }
 
-  .body-table {
-    @apply max-w-[1000px] mx-auto overflow-auto;
+  .btn-add {
+    @apply inline-flex items-center justify-center text-body-1 h-10 px-4 bg-tertiary-green text-semantic-white rounded-lg;
+  }
 
-    table {
-      @apply w-full border-collapse border border-neutral-700;
+  .list-players {
+    @apply block border border-neutral-700 rounded-lg;
 
-      thead {
-        tr {
-          th {
-            @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center px-4 py-2 whitespace-nowrap;
-          }
+    li {
+      @apply block space-y-4 py-3;
+
+      .description {
+        @apply flex flex-col md:flex-row md:items-center md:justify-between gap-4 px-4 md:px-6;
+
+        h5 {
+          @apply text-tertiary-blue font-display font-medium;
+        }
+  
+        .empty {
+          @apply text-semantic-error text-lead font-display font-medium text-center w-full;
+        }
+  
+  
+        .btn-info {
+          @apply inline-flex items-center justify-center h-12 px-4 bg-tertiary-green text-semantic-white text-lead rounded-lg whitespace-nowrap cursor-pointer;
         }
       }
 
-      tbody {
-        tr {
-          td {
-            @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center px-4 py-2 whitespace-nowrap;
+      .detail {
+        @apply block space-y-4 border-t border-neutral-700 px-4 md:px-6 py-4;
+
+        h6 {
+          @apply text-tertiary-green text-heading-h5-lg text-center font-display font-medium;
+        }
+
+        .info {
+          @apply block space-y-2;
+
+          p {
+            @apply text-lead leading-6 text-neutral-700 font-display font-normal;
+          }
+        }
+      }
+    }
+    
+    li:not(:last-child) {
+      @apply border-b border-neutral-700;
+    }
+  }
+}
+
+
+.content-score {
+  @apply w-full py-16;
+
+  .body {
+    @apply block space-y-8 max-w-[1000px] mx-auto;
+
+    h1 {
+      @apply text-secondary-700 font-display font-semibold;
+    }
+
+    .btn-add {
+      @apply inline-flex items-center justify-center h-12 px-4 bg-tertiary-green text-semantic-white text-lead rounded-lg whitespace-nowrap;
+    }
+  
+    .body-table {
+      @apply overflow-auto;
+  
+      table {
+        @apply w-full border-collapse border border-neutral-700;
+  
+        thead {
+          tr {
+            th {
+              @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center px-4 py-2 whitespace-nowrap;
+            }
+          }
+        }
+  
+        tbody {
+          tr {
+            td {
+              @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center px-4 py-2 whitespace-nowrap;
+            }
           }
         }
       }
@@ -43,7 +109,7 @@
 
 
 .modal-add-match {
-  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px];
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px] overflow-auto;
 
 
   .body-modal {
@@ -121,7 +187,7 @@
 }
 
 .modal-add-player {
-  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-12 flex items-center justify-center;
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-12 flex items-center justify-center overflow-auto;
 
   .body-modal {
     @apply block space-y-6 w-full max-w-[500px] mx-auto bg-semantic-white rounded-xl py-6;

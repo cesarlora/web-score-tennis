@@ -1,21 +1,19 @@
 import LogoTennis from '../assets/logo.webp'
+import { Link } from 'react-router-dom'
 import './header.css'
 
-function Header({ openModal }) {
+function Header() {
  
   return (
     <header>
       <div className="container-fluid">
-        <a href="#!" className='logo'>
-          <img src={LogoTennis} className='logo' alt="logo" />
-        </a>
+        <Link to="/" className='logo'>
+          <img src={LogoTennis} alt="logo" />
+        </Link>
         <nav className='main-nav'>
           <ul className='main-menu'>
             <li>
-              <button type='button'>Puntajes</button>
-            </li>
-            <li>
-              <button type='button' onClick={openModal}>Agregar Partido</button>
+              <Link to="/players">Jugadores</Link>
             </li>
           </ul>
         </nav>
