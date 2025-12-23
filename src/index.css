@@ -8,6 +8,34 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif, "Libre Baskerville", serif, "DM Sans", sans-serif;
 }
 
+.content-home {
+  @apply w-full py-20;
+
+  h1 {
+    @apply text-secondary-700 font-display font-semibold;
+  }
+
+  p {
+    @apply text-lead leading-6 text-neutral-700 font-display font-normal;
+  }
+
+  .navigation-list {
+    @apply block border border-neutral-700 rounded-lg;
+
+    li {
+      @apply flex items-center justify-between border-b border-neutral-700 px-4 py-3;
+
+      &:last-child {
+        @apply border-0;
+      }
+
+      a {
+        @apply text-tertiary-blue text-lead font-display font-medium;
+      }
+    }
+  }
+}
+
 
 .content-players {
   @apply w-full py-20;
@@ -90,7 +118,7 @@
         thead {
           tr {
             th {
-              @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center px-4 py-2 whitespace-nowrap;
+              @apply w-auto border border-neutral-700 text-lead text-secondary-700 font-display font-medium text-center px-4 py-3 whitespace-nowrap;
             }
           }
         }
@@ -98,10 +126,130 @@
         tbody {
           tr {
             td {
-              @apply border border-neutral-700 text-lead font-display font-medium text-secondary-700 text-center px-4 py-2 whitespace-nowrap;
+              @apply border border-neutral-700 text-lead leading-6 font-display font-medium text-secondary-700 text-center px-4 py-3 whitespace-nowrap;
+
+              p {
+                @apply text-lead font-display leading-6 font-medium text-secondary-700 text-center;
+              }
             }
           }
         }
+      }
+    }
+  }
+}
+
+.modal-pointer {
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px] overflow-auto;
+
+  .body-modal {
+    @apply block space-y-6 max-w-[800px] mx-auto bg-semantic-white rounded-xl py-6;
+
+    .title {
+      @apply flex flex-col md:flex-row md:items-center justify-center gap-4 border-b border-neutral-700 pb-6 px-2 md:px-4;
+
+      h3 {
+        @apply text-center md:text-left text-tertiary-blue font-display font-medium;
+      }
+    }
+
+    .description {
+      @apply grid grid-cols-2 gap-6 px-2 md:px-4 pb-10 border-b border-neutral-700;
+
+      .info {
+        @apply block space-y-4 text-center border border-neutral-600 rounded-lg p-4;
+
+        h4 {
+          @apply text-tertiary-blue font-display font-medium;
+        }
+
+        h5 {
+          @apply text-lead text-neutral-700 font-display font-normal;
+        }
+
+        button {
+          @apply inline-flex items-center justify-center max-w-[100px] min-w-[100px] h-[100px] bg-tertiary-green text-semantic-white rounded-lg cursor-pointer;
+        }
+      }
+    }
+
+    .btn-sent {
+      @apply w-full h-12 px-4 bg-tertiary-blue text-semantic-white rounded-lg;
+    }
+  }
+}
+
+.modal-add-game {
+  @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px] overflow-auto;
+
+  .body-modal {
+    @apply block space-y-6 max-w-[600px] mx-auto bg-semantic-white rounded-xl py-6;
+
+    .title {
+      @apply flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-neutral-700 pb-6 px-2 md:px-4;
+
+      h4 {
+        @apply text-center md:text-left text-tertiary-blue font-display font-medium;
+      }
+
+      .btn-add {
+        @apply inline-flex items-center justify-center h-10 px-4 bg-tertiary-green text-semantic-white rounded-lg;
+      }
+    }
+
+    form {
+      @apply w-full block space-y-6 px-4;
+
+      .form-group {
+        @apply block space-y-2;
+
+        label {
+          @apply block text-lead text-neutral-700 font-display font-medium;
+        }
+
+        .form-control {
+          @apply w-full !h-12;
+
+          .css-13cymwt-control {
+            @apply w-full !h-12 min-h-full border border-neutral-500 !rounded-lg outline-none shadow-none;
+
+            .css-1dyz3mf {
+              @apply w-full h-12 flex items-center m-0 px-2 md:px-3 py-0;
+
+              .css-1p3m7a8-multiValue {
+                @apply w-auto m-0 p-0;
+              }
+
+              .css-19bb58m {
+                @apply h-12 p-0 m-0;
+              }
+            }
+ 
+            .css-hlgwow {
+              @apply w-full h-12 px-2 md:px-3 py-0;
+
+              .css-1jqq78o-placeholder {
+                @apply w-full h-12 text-neutral-700 p-0 m-0 flex items-center;
+              }
+
+              .css-19bb58m {
+                @apply !w-full !h-12 p-0 m-0 flex items-center;
+
+                input {
+                  @apply w-full h-12;
+                }
+              }
+            }
+          }
+        }
+
+        input, select {
+          @apply w-full h-12 border border-neutral-500 px-2 md:px-3 rounded-lg placeholder:text-neutral-700 text-primary-700 outline-none;
+        }
+      }
+
+      button {
+        @apply inline-flex items-center justify-center w-full h-12 px-4 bg-tertiary-blue text-semantic-white rounded-lg;
       }
     }
   }

@@ -13,6 +13,12 @@ function Header() {
         <nav className='main-nav'>
           <ul className='main-menu'>
             <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            <li>
+              <Link to="/score">Partidos</Link>
+            </li>
+            <li>
               <Link to="/players">Jugadores</Link>
             </li>
           </ul>

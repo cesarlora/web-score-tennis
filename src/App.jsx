@@ -4,6 +4,7 @@ import './index.css'
 import Header from './components/Header.jsx'
 import Home from './pages/Home.jsx'
 import Players from './pages/Players.jsx'
+import Score from './pages/Score.jsx'
 
 function App() { 
 
@@ -12,6 +13,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/score" element={<Score />} />
         <Route path="/players" element={<Players />} />
       </Routes>
     </BrowserRouter>

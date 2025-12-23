@@ -118,7 +118,7 @@ function Players() {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-2">
                          <div className="info">
                           <p>Jugados</p>
-                          <p>{stats[player.id].played}</p>
+                          <p>{stats[player.id].played}</p> 
                         </div>
                         <div className="info">
                           <p>Tipo de partidos</p>
