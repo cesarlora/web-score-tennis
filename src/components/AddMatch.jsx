@@ -10,6 +10,11 @@ function AddMatch({ closeModal, onAddMatch }) {
   const [players, setPlayers] = useState([])
   const [modalAddPlayer, setModalAddPlayer] = useState(false)
 
+  const getToday = () => {
+    const today = new Date()
+    return today.toISOString().split('T')[0]
+  }
+
   useEffect(() => {
     const fetchPlayers = async () => {
       const snapshot = await getDocs(collection(db, 'players'))
@@ -48,13 +53,16 @@ function AddMatch({ closeModal, onAddMatch }) {
     player2: null,
     matchType: 'Individual',
     result: '',
-    date: ''
+    date: getToday()
   }
 
   const [match, setMatch] = useState(initialMatchState)
 
   const resetForm = () => {
-    setMatch(initialMatchState)
+    setMatch({
+      ...initialMatchState,
+      date: getToday()
+    })
     setErrors({})
     closeModal()
   }

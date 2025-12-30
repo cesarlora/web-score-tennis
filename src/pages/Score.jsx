@@ -3,6 +3,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
 import AddMatch from '../components/AddMatch.jsx'
 import AddGame from '../components/AddGame.jsx'
+import { Link } from 'react-router-dom'
 
 function Score() {
   const [modalAdd, setModalAdd] = useState(false)
@@ -84,14 +85,15 @@ function Score() {
 
   return (
     <>
-       <div className="content-score">
+      <div className="content-score">
         <div className="container">
           <div className="body">
+            <Link to="/tenis" className='btn-back'><i className='icon icon-arrow-left'></i>Atras</Link>
             <div className="flex flex-col lg:flex-row lg:items-center md:justify-between gap-4">
               <h1>Score Tennis</h1>
               <div className="flex flex-col lg:flex-row gap-2">
                 <button type="button" className="btn-add" onClick={() => setModalAdd(true)}>Agregar Resultados</button>
-                <button type="button" className="btn-add" onClick={() => setModalAddGame(true)}>Agregar Juego</button>
+                <button type="button" className="btn-add" onClick={() => setModalAddGame(true)}>Comenzar a jugar</button>
               </div>
             </div>
             <div className="body-table">

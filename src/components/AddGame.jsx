@@ -109,17 +109,12 @@ function AddGame({closeModal}) {
     setModalAddPoint(true)
   }
 
-
-
-
-
   const resetForm = () => {
     setMatch(initialMatchState)
     setErrors({})
     closeModal()
   }
-
-
+  
  useEffect(() => {
     setMatch(prev => ({
       ...prev,

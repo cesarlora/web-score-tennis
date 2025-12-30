@@ -23,14 +23,42 @@
     @apply block border border-neutral-700 rounded-lg;
 
     li {
-      @apply flex items-center justify-between border-b border-neutral-700 px-4 py-3;
+      @apply flex items-center justify-between border-b border-neutral-700;
 
       &:last-child {
         @apply border-0;
       }
 
       a {
-        @apply text-tertiary-blue text-lead font-display font-medium;
+        @apply w-full flex text-tertiary-blue text-lead font-display font-medium px-4 py-3;
+      } 
+    }
+  }
+}
+
+.content-home-tenis {
+  @apply w-full py-20;
+
+  h1 {
+    @apply text-secondary-700 font-display font-semibold;
+  }
+
+  p {
+    @apply text-lead leading-6 text-neutral-700 font-display font-normal;
+  }
+
+  .navigation-list {
+    @apply block border border-neutral-700 rounded-lg;
+
+    li {
+      @apply flex items-center justify-between border-b border-neutral-700;
+
+      &:last-child {
+        @apply border-0;
+      }
+
+      a {
+        @apply w-full flex text-tertiary-blue text-lead font-display font-medium px-4 py-3;
       }
     }
   }
@@ -39,6 +67,10 @@
 
 .content-players {
   @apply w-full py-20;
+
+  .btn-back {
+    @apply inline-flex items-center gap-2 h-12 px-4 bg-tertiary-green text-semantic-white text-lead rounded-lg;
+  }
 
   h2 {
     @apply text-secondary-700 font-display font-medium;
@@ -101,6 +133,10 @@
   .body {
     @apply block space-y-8 max-w-[1000px] mx-auto;
 
+    .btn-back {
+      @apply inline-flex items-center gap-2 h-12 px-4 bg-tertiary-green text-semantic-white text-lead rounded-lg;
+    }
+
     h1 {
       @apply text-secondary-700 font-display font-semibold;
     }
@@ -110,7 +146,7 @@
     }
   
     .body-table {
-      @apply overflow-auto;
+      @apply overflow-auto h-[320px] md:h-[500px];
   
       table {
         @apply w-full border-collapse border border-neutral-700;
@@ -255,7 +291,6 @@
   }
 }
 
-
 .modal-add-match {
   @apply w-full h-full fixed top-0 left-0 bg-semantic-black bg-opacity-60 py-[100px] overflow-auto;
 
@@ -373,6 +408,30 @@
 
       button {
         @apply inline-flex items-center justify-center w-full h-12 px-4 bg-tertiary-blue text-semantic-white rounded-lg;
+      }
+    }
+  }
+}
+
+.sub-menu {
+  @apply absolute right-0 top-full border border-neutral-700 bg-semantic-white rounded-lg mt-2 shadow-lg z-10 max-w-[200px] min-w-[200px] w-full;
+
+  .list-sub-menu {
+    @apply block space-y-2 px-2 py-2;
+
+    li {
+      @apply px-2 py-2 bg-semantic-transparent rounded-lg;
+
+      &:hover {
+        @apply bg-tertiary-blue;
+
+        a {
+          @apply text-semantic-white;
+        }
+      }
+
+      a {
+        @apply block !text-body-1 text-neutral-700 font-display font-medium;
       }
     }
   }

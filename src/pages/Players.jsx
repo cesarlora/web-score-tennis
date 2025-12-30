@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import AddPlayer from '../components/AddPlayer'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
+import { Link } from 'react-router-dom'
 
 function Players() {
   const [modalAddPlayer, setModalAddPlayer] = useState(false)
@@ -95,6 +96,7 @@ function Players() {
       <div className="content-players">
         <div className="container">
           <div className="block space-y-8 max-w-[800px] mx-auto">
+            <Link to="/tenis" className='btn-back'><i className='icon icon-arrow-left'></i>Atras</Link>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
               <h2>Lista de Jugadores</h2>
               <button type="button" className='btn-add' onClick={() => setModalAddPlayer(true)}>Agregar Jugador</button>
